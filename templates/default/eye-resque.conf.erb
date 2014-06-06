@@ -31,9 +31,9 @@ Eye.application 'resque' do
 
   workers.each do |group_name, info|
     group group_name do
-      info[:num].times do |i|
+      info['num'].times do |i|
         process "#{group_name}-#{i}" do
-          env 'QUEUE' => info[:queue]
+          env 'QUEUE' => info['queue']
           daemonize true
           start_command '<%= @dir %>/bin/rake -f <%= @dir %>/Rakefile environment resque:work'
           monitor_children
