@@ -33,6 +33,7 @@ Eye.application 'resque' do
     group group_name do
       info['num'].times do |i|
         process "#{group_name}-#{i}" do
+          pid_file "tmp/pids/resque-#{group_name}-#{i}.pid"
           env 'QUEUE' => info['queue']
           daemonize true
           start_command '<%= @dir %>/bin/rake -f <%= @dir %>/Rakefile environment resque:work'
