@@ -14,7 +14,7 @@ Eye.application 'resque' do
   stop_grace 45.seconds
 
   trigger :flapping, times: 5, within: 5.minute, retry_in: 10.minutes
-  check :memory, below: 350.megabytes, every: 30.seconds, min_tries: 3, max_tries: 5
+  check :memory, below: 350.megabytes, every: 30.seconds, times: [3, 5]
 
   daemonize true
   stop_on_delete true
