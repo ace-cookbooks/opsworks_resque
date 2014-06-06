@@ -25,4 +25,11 @@ node[:deploy].each do |application, deploy|
       workers: node[:resque][:workers]
     })
   end
+
+  ruby_block 'ensure resque started' do
+    block do
+      true
+    end
+    notifies :start, 'eye_service[resque]'
+  end
 end

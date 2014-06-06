@@ -1,10 +1,8 @@
 node[:deploy].each do |application, deploy|
-  bash 'stop resque' do
-    code <<-EOH
-    sleep 1
-    /usr/local/bin/eye stop workers
-    EOH
-    user 'root'
-    action :run
+  ruby_block 'stop resque' do
+    block do
+      true
+    end
+    notifies :stop, 'eye_service[resque]', :immediately
   end
 end
