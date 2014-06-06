@@ -16,7 +16,6 @@ Eye.application 'resque' do
   trigger :flapping, times: 5, within: 5.minute, retry_in: 10.minutes
   check :memory, below: 350.megabytes, every: 30.seconds, times: [3, 5]
 
-  daemonize true
   stop_on_delete true
 
   # We intentionally don't kill the resque workers.  This is a problem when terminating nodes.
@@ -36,6 +35,7 @@ Eye.application 'resque' do
       group group_name do
         process "#{group_name}-#{i}" do
           env 'QUEUE' => info[:queue]
+          daemonize true
           monitor_children
         end
       end
