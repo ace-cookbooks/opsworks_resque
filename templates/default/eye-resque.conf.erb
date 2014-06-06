@@ -4,7 +4,7 @@ require File.join(File.dirname(__FILE__), "config.rb")
 
 Eye.application 'resque' do
   <% @env ||= {} -%>
-  env = { <%= @env.reduce([]){|ary,hash| ary << "'#{hash.first}' => '#{hash.last}'"}.join(', ') %> }
+  env <%= @env %>
   working_dir '<%= @dir %>'
   stdall 'log/resque.log'
   clear_env true
@@ -25,7 +25,6 @@ Eye.application 'resque' do
 
   uid '<%= @uid %>'
   gid '<%= @gid %>'
-
 
   workers = <%= @workers %>
 
