@@ -12,9 +12,6 @@ node[:deploy].each do |application, deploy|
   end
 
   eye_app 'resque' do
-    # user_srv true
-    # user_srv_uid deploy[:user]
-    # user_srv gid deploy[:group]
     template 'eye-resque.conf.erb'
     cookbook 'opsworks_resque'
     variables({
@@ -40,5 +37,24 @@ node[:deploy].each do |application, deploy|
     block do
       node.set['opsworks_resque']['disable_restart'] = true
     end
+  end
+
+  eye_app 'resque-scheduler' do
+    template 'eye-resque-sched.conf.erb'
+    cookbook 'opsworks_resque'
+    variables({
+      env: deploy[:environment],
+      dir: deploy[:current_path],
+      uid: deploy[:user],
+      gid: deploy[:group],
+      workers: node[:resque][:workers]
+    })
+  end
+
+  ruby_block 'ensure resque scheduler started' do
+    block do
+      true
+    end
+    notifies :start, 'eye_service[resque-scheduler]', :immediately
   end
 end
