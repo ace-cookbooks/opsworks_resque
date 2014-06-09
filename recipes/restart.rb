@@ -4,5 +4,6 @@ node[:deploy].each do |application, deploy|
       true
     end
     notifies :restart, 'eye_service[resque]', :delayed
+    not_if { node['opsworks_resque']['disable_restart'] == true }
   end
 end
