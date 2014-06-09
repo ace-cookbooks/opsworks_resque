@@ -30,7 +30,7 @@ node[:deploy].each do |application, deploy|
     block do
       true
     end
-    notifies :start, 'eye_service[resque]'
+    notifies :start, 'eye_service[resque]', :immediately
   end
 
   # Opsworks specific hack
