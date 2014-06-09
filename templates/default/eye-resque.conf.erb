@@ -10,8 +10,8 @@ Eye.application 'resque' do
   clear_env true
 
   start_grace 45.seconds
-  restart_grace 45.seconds
-  stop_grace 45.seconds
+  restart_grace 5.seconds
+  stop_grace 5.seconds
 
   trigger :flapping, times: 5, within: 5.minute, retry_in: 10.minutes
   check :memory, below: 350.megabytes, every: 30.seconds, times: [3, 5]
