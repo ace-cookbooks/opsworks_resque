@@ -46,8 +46,7 @@ node[:deploy].each do |application, deploy|
       env: deploy[:environment],
       dir: deploy[:current_path],
       uid: deploy[:user],
-      gid: deploy[:group],
-      workers: node[:resque][:workers]
+      gid: deploy[:group]
     })
   end
 
