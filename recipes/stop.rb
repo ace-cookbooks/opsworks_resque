@@ -1,5 +1,5 @@
 node[:deploy].each do |application, deploy|
-  ruby_block 'stop resque' do
+  ruby_block 'stop resque and scheduler' do
     block do
       true
     end

@@ -23,20 +23,12 @@ node[:deploy].each do |application, deploy|
     })
   end
 
-  ruby_block 'ensure resque started' do
+  ruby_block 'restart resque on deploy' do
     block do
       true
     end
-    notifies :start, 'eye_service[resque]', :immediately
-  end
-
-  # Opsworks specific hack
-  # Setting a node attribute to disable the restart recipe that will be run as part of the deploy.
-  # On opsworks this only sticks for the current chef run.
-  ruby_block 'block resque restart' do
-    block do
-      node.set['opsworks_resque']['disable_restart'] = true
-    end
+    notifies :restart, 'eye_service[resque]', :delayed
+    not_if { node[:opswors][:activity] == 'setup' }
   end
 
   eye_app 'resque-scheduler' do
@@ -50,10 +42,11 @@ node[:deploy].each do |application, deploy|
     })
   end
 
-  ruby_block 'ensure resque scheduler started' do
+  ruby_block 'restart resque-scheduler on deploy' do
     block do
       true
     end
-    notifies :start, 'eye_service[resque-scheduler]', :immediately
+    notifies :restart, 'eye_service[resque-scheduler]', :delayed
+    not_if { node[:opswors][:activity] == 'setup' }
   end
 end
