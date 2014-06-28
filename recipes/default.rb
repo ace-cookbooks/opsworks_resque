@@ -28,7 +28,7 @@ node[:deploy].each do |application, deploy|
       true
     end
     notifies :restart, 'eye_service[resque]', :delayed
-    not_if { node[:opswors][:activity] == 'setup' }
+    not_if { node[:opsworks][:activity] == 'setup' }
   end
 
   eye_app 'resque-scheduler' do
@@ -47,6 +47,6 @@ node[:deploy].each do |application, deploy|
       true
     end
     notifies :restart, 'eye_service[resque-scheduler]', :delayed
-    not_if { node[:opswors][:activity] == 'setup' }
+    not_if { node[:opsworks][:activity] == 'setup' }
   end
 end
