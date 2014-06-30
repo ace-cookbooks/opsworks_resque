@@ -1,5 +1,6 @@
-service_list = [resources('eye_service[resque]')].flatten
-if service_list.size != 1
+begin
+  resources('eye_service[resque]')
+rescue Chef::Exceptions::ResourceNotFound
   eye_service 'resque' do
     supports [:start, :stop, :safe_stop, :restart, :safe_restart, :enable, :load]
     user_srv_uid 'root'
@@ -8,8 +9,9 @@ if service_list.size != 1
   end
 end
 
-service_list = [resources('eye_service[resque-scheduler]')].flatten
-if service_list.size != 1
+begin
+  resources('eye_service[resque-scheduler]')
+rescue Chef::Exceptions::ResourceNotFound
   eye_service 'resque-scheduler' do
     supports [:start, :stop, :safe_stop, :restart, :safe_restart, :enable, :load]
     user_srv_uid 'root'
