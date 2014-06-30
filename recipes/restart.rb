@@ -1,4 +1,6 @@
 node[:deploy].each do |application, deploy|
+  include_recipe 'opsworks_resque::service'
+
   ruby_block 'restart resque and scheduler later' do
     block do
       true
