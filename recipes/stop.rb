@@ -6,6 +6,5 @@ node[:deploy].each do |application, deploy|
       true
     end
     notifies :safe_stop, 'eye_service[resque]', :immediately
-    notifies :safe_stop, 'eye_service[resque-scheduler]', :immediately
   end
 end

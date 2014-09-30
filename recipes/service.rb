@@ -8,14 +8,3 @@ rescue Chef::Exceptions::ResourceNotFound
     action :nothing
   end
 end
-
-begin
-  resources('eye_service[resque-scheduler]')
-rescue Chef::Exceptions::ResourceNotFound
-  eye_service 'resque-scheduler' do
-    supports [:start, :stop, :safe_stop, :restart, :safe_restart, :enable, :load]
-    user_srv_uid 'root'
-    user_srv_gid 'root'
-    action :nothing
-  end
-end

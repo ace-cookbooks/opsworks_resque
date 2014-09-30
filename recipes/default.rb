@@ -30,23 +30,4 @@ node[:deploy].each do |application, deploy|
     notifies :restart, 'eye_service[resque]', :delayed
     not_if { node[:opsworks][:activity] == 'setup' }
   end
-
-  eye_app 'resque-scheduler' do
-    template 'eye-resque-sched.conf.erb'
-    cookbook 'opsworks_resque'
-    variables({
-      env: deploy[:environment],
-      dir: deploy[:current_path],
-      uid: deploy[:user],
-      gid: deploy[:group]
-    })
-  end
-
-  ruby_block 'restart resque-scheduler on deploy' do
-    block do
-      true
-    end
-    notifies :restart, 'eye_service[resque-scheduler]', :delayed
-    not_if { node[:opsworks][:activity] == 'setup' }
-  end
 end
